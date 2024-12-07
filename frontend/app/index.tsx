@@ -1,61 +1,39 @@
-import { StyleSheet, View, Text, SafeAreaView, StatusBar, ScrollView, Image, TouchableOpacity } from 'react-native';
-
+// import { DarkTheme } from '@react-navigation/native';
+import { View, Text, SafeAreaView, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { 
+  Bars3Icon, 
+  MagnifyingGlassIcon, 
+  BellIcon 
+} from "react-native-heroicons/outline";
+import { BreakingNewsCard } from '@/components/BreakingNewsCard';
+import { StrictMode } from 'react';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar style="dark" />
-      <View className="flex-row justify-between items-center px-4 py-3">
-      <TouchableOpacity>
-        <View className="w-8 h-8 justify-center">
-          {/* Menu Icon */}
-          {/* <Image 
-            source={require('../../assets/icons/menu.png')}
-            className="w-6 h-6"
-          /> */}
-          <Text>Menu</Text>
+    <StrictMode>
+      <SafeAreaView className="flex-1 bg-white">
+        <StatusBar style="auto"/>
+
+        {/* Header */}
+        <View className="flex-row justify-between items-center px-4 py-3">
+          <TouchableOpacity>
+            <Bars3Icon size={24} color="#000000"/>
+          </TouchableOpacity>
+          
+          <View className="flex-row gap-4">
+            <TouchableOpacity>
+              <MagnifyingGlassIcon size={24} color="#000000" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <BellIcon size={24} color="#000000" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </TouchableOpacity>
+
+        {/* Breaking News Section */}
+        <BreakingNewsCard category="Sports" source="CNN" title="Cycling" time="10:00" imageURL="https://cdn.pixabay.com/photo/2023/06/07/02/16/man-8046025_1280.jpg" />
         
-        <View className="flex-row gap-4">
-          <TouchableOpacity>
-            {/* <Image 
-              source={require('../../assets/icons/search.png')}
-              className="w-6 h-6"
-            /> */}
-            <Text>Search</Text> 
-          </TouchableOpacity>
-          <TouchableOpacity>
-            {/* <Image 
-              source={require('../../assets/icons/notification.png')}
-              className="w-6 h-6"
-            /> */}
-            <Text>Notification</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <ScrollView>
-        <Text>Hello world!</Text>
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </StrictMode>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
