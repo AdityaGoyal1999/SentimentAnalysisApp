@@ -6,6 +6,7 @@ import {
   BellIcon 
 } from "react-native-heroicons/outline";
 import { BreakingNewsCards } from '@/components/BreakingNewsCards';
+import { RecommendationSection } from '@/components/RecommendationSection';
 import { StrictMode } from 'react';
 
 export default function HomeScreen() {
@@ -32,6 +33,9 @@ export default function HomeScreen() {
 
         {/* Breaking News Section */}
         <BreakingNewsCards />
+
+        {/* Recommendation Section */}
+        <RecommendationSection />
         
       </SafeAreaView>
     </StrictMode>
