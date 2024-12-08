@@ -1,21 +1,13 @@
-import { Slot } from 'expo-router';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import '../global.css'; // Keep your NativeWind styles import
-import { useEffect } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import * as SplashScreen from 'expo-splash-screen';
+// import { Slot } from 'expo-router';
+// import { useColorScheme } from '@/hooks/useColorScheme';
+// import '../global.css'; // Keep your NativeWind styles import
+// import { useEffect } from 'react';
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
+// import * as SplashScreen from 'expo-splash-screen';
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+import { Slot } from "expo-router";
 
-  useEffect(() => {
-    // Hide the splash screen when the app is ready
-    SplashScreen.hideAsync();
-  }, []);
+// Import your global CSS file
+import "../global.css";
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Slot />
-    </GestureHandlerRootView>
-  );
-}
+export default Slot;
