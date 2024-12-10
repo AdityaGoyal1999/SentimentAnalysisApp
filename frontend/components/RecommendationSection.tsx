@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, Text, Image, Pressable, ScrollView, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 
@@ -7,12 +7,13 @@ interface RecommendationCardProps {
     title: string;
     imageURL: string;
     authorImageURL: string;
+    // sourceName: string;
     author: string;
     date: string;
     // description: string;
 }
 
-function RecommendationCard({ title, imageURL, category, authorImageURL, author, date }: RecommendationCardProps) {
+function RecommendationCard({ title, imageURL, category, author, authorImageURL, date }: RecommendationCardProps) {
     return (
         <TouchableOpacity onPress={() => router.push({
             pathname: '/news',
@@ -36,7 +37,8 @@ function RecommendationCard({ title, imageURL, category, authorImageURL, author,
                     <View className="flex-row items-center gap-2">
                         <Image 
                             source={{ uri: authorImageURL}}
-                            className="w-5 h-5 rounded-full"
+                            className="w-5 h-5 rounded-full border-2 border-red-200"
+
                         />
                         <Text className="text-gray-500 text-sm">{author}</Text>
                         <Text className="text-gray-500 text-sm">{date}</Text>
@@ -48,33 +50,54 @@ function RecommendationCard({ title, imageURL, category, authorImageURL, author,
 }
 
 export function RecommendationSection() {
-    const recommendations = [
-        {
-            category: 'Sports',
-            title: 'What Training Do Volleyball Players Need?',
-            author: 'McKindney',
-            authorImageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg',
-            date: 'Feb 27, 2023',
-            imageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg'
-        },
-        {
-            category: 'Education',
-            title: 'Secondary school places: When do parents find out?',
-            author: 'Rosemary',
-            authorImageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg',
-            date: 'Feb 28, 2023',
-            imageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg'
-        },
-        {
-            category: 'Education',
-            title: 'Secondary school places: When do parents find out? This is a test title and it is meant to be long',
-            author: 'Rosemary',
-            authorImageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg',
-            date: 'Feb 28, 2023',
-            imageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg'
-        },
-        // Add more recommendations as needed
-    ];
+    const [recommendations, setRecommendations] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        fetchRecommendations();
+        console.log(recommendations)
+    }, [])
+
+    const fetchRecommendations = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/get-news');
+            const data = await response.json();
+            setRecommendations(data.results);
+            setIsLoading(false);
+        }
+        catch (error) {
+            console.error("Error fetching recommendations", error);
+            setIsLoading(false);
+        }
+    }
+
+    // const recommendations = [
+    //     {
+    //         category: 'Sports',
+    //         title: 'What Training Do Volleyball Players Need?',
+    //         author: 'McKindney',
+    //         authorImageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg',
+    //         date: 'Feb 27, 2023',
+    //         imageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg'
+    //     },
+    //     {
+    //         category: 'Education',
+    //         title: 'Secondary school places: When do parents find out?',
+    //         author: 'Rosemary',
+    //         authorImageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg',
+    //         date: 'Feb 28, 2023',
+    //         imageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg'
+    //     },
+    //     {
+    //         category: 'Education',
+    //         title: 'Secondary school places: When do parents find out? This is a test title and it is meant to be long',
+    //         author: 'Rosemary',
+    //         authorImageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg',
+    //         date: 'Feb 28, 2023',
+    //         imageURL: 'https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg'
+    //     },
+    //     // Add more recommendations as needed
+    // ];
 
     return (
         <View className="px-4">
@@ -91,10 +114,11 @@ export function RecommendationSection() {
                         key={index}
                         category={item.category}
                         title={item.title}
-                        imageURL={item.imageURL}
+                        imageURL={item.image_url}
+                        sourceName={item.source_icon}
                         authorImageURL={item.authorImageURL}
-                        author={item.author}
-                        date={item.date}
+                        author={item.creator}
+                        date={item.pubDate}
                         // description={item.description}
                     />
                 ))}

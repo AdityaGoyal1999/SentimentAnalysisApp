@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect } from "react";
 import { View, Text, Pressable, ScrollView, Dimensions, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 
 import { BreakingNewsCard } from "./BreakingNewsCard";
@@ -8,37 +8,58 @@ export function BreakingNewsCards() {
     const [activeIndex, setActiveIndex] = useState(0);
     const scrollViewRef = useRef<ScrollView>(null);
     const screenWidth = Dimensions.get('window').width;
+    const [isLoading, setIsLoading] = useState(true);
+    const [newsItems, setNewsItems] = useState([]);
 
-    const newsItems = [
-        {
-            category: "Sports",
-            source: "CNN Indonesia",
-            title: "Alexander wears modified helmet in road races",
-            time: "6 hours ago",
-            imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
-        },
-        {
-            category: "Sports",
-            source: "CNN Indonesia",
-            title: "Alexander wears modified helmet in road races",
-            time: "6 hours ago",
-            imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
-        },
-        {
-            category: "Sports",
-            source: "CNN Indonesia",
-            title: "Alexander wears modified helmet in road races",
-            time: "6 hours ago",
-            imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
-        },
-        {
-            category: "Sports",
-            source: "CNN Indonesia",
-            title: "Alexander wears modified helmet in road races",
-            time: "6 hours ago",
-            imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
-        },
-    ]
+    useEffect(() => {
+        fetchNewsItems();
+    }, [])
+
+    const fetchNewsItems = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/get-news');
+            const data = await response.json();
+
+            // title, description, image_url, country, category, source_name, link pub_date
+            setNewsItems(data.results);
+            setIsLoading(false);
+        }
+        catch (error) {
+            console.error("Error fetching news items", error);
+            setIsLoading(false);
+        }
+    }
+
+    // const newsItems = [
+    //     {
+    //         category: "Sports",
+    //         source: "CNN Indonesia",
+    //         title: "Alexander wears modified helmet in road races",
+    //         time: "6 hours ago",
+    //         imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
+    //     },
+    //     {
+    //         category: "Sports",
+    //         source: "CNN Indonesia",
+    //         title: "Alexander wears modified helmet in road races",
+    //         time: "6 hours ago",
+    //         imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
+    //     },
+    //     {
+    //         category: "Sports",
+    //         source: "CNN Indonesia",
+    //         title: "Alexander wears modified helmet in road races",
+    //         time: "6 hours ago",
+    //         imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
+    //     },
+    //     {
+    //         category: "Sports",
+    //         source: "CNN Indonesia",
+    //         title: "Alexander wears modified helmet in road races",
+    //         time: "6 hours ago",
+    //         imageURL: "https://cdn.pixabay.com/photo/2024/02/14/16/53/night-8573855_960_720.jpg"
+    //     },
+    // ]
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const contentOffset = event.nativeEvent.contentOffset.x;
@@ -79,10 +100,10 @@ export function BreakingNewsCards() {
                     >
                         <BreakingNewsCard 
                             category={item.category}
-                            source={item.source}
+                            source={item.source_name}
                             title={item.title}
-                            time={item.time}
-                            imageURL={item.imageURL}
+                            time={item.pubDate}
+                            imageURL={item.image_url}
                         />
                     </View>
                 ))}
