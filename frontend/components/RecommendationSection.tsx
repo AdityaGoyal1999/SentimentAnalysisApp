@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, Pressable, ScrollView } from "react-native";
+import { View, Text, Image, Pressable, ScrollView, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
 interface RecommendationCardProps {
     category: string;
@@ -13,25 +14,36 @@ interface RecommendationCardProps {
 
 function RecommendationCard({ title, imageURL, category, authorImageURL, author, date }: RecommendationCardProps) {
     return (
-        <View className="flex-row border-2 border-red-200 my-2">
-            <Image 
-                source={{ uri: imageURL}}
-                className="w-24 h-auto rounded-lg"
-            />
-            <View className="flex-1 ml-3 justify-center">
-                <Text className="text-gray-500 text-sm font-bold mb-1">{category}</Text>
-                <Text className="text-lg" numberOfLines={2}>{title}</Text>
-            {/* <Text className="text-sm">{description}</Text> */}
-                <View className="flex-row items-center gap-2">
-                    <Image 
-                        source={{ uri: authorImageURL}}
-                        className="w-5 h-5 rounded-full"
-                    />
-                    <Text className="text-gray-500 text-sm">{author}</Text>
-                    <Text className="text-gray-500 text-sm">{date}</Text>
+        <TouchableOpacity onPress={() => router.push({
+            pathname: '/news',
+            params: {
+                category: category,
+                title: title,
+                source: author,
+                time: date,
+                imageURL: imageURL
+            }
+        })}>
+            <View className="flex-row border-2 border-red-200 my-2">
+                <Image 
+                    source={{ uri: imageURL}}
+                    className="w-24 h-auto rounded-lg"
+                />
+                <View className="flex-1 ml-3 justify-center">
+                    <Text className="text-gray-500 text-sm font-bold mb-1">{category}</Text>
+                    <Text className="text-lg" numberOfLines={2}>{title}</Text>
+                {/* <Text className="text-sm">{description}</Text> */}
+                    <View className="flex-row items-center gap-2">
+                        <Image 
+                            source={{ uri: authorImageURL}}
+                            className="w-5 h-5 rounded-full"
+                        />
+                        <Text className="text-gray-500 text-sm">{author}</Text>
+                        <Text className="text-gray-500 text-sm">{date}</Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

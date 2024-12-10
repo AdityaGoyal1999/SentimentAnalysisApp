@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
-
+import { router } from "expo-router";
 interface BreakingNewsCardProps {
     category: string;
     title: string;
@@ -12,7 +12,19 @@ interface BreakingNewsCardProps {
 
 export function BreakingNewsCard({category, source, title, time, imageURL, isActive=false}: BreakingNewsCardProps) {
     return (
-        <TouchableOpacity className={`overflow-hidden rounded-xl ${isActive ? 'scale-100' : 'scale-90'}`}>
+        <TouchableOpacity 
+            className={`overflow-hidden rounded-xl ${isActive ? 'scale-100' : 'scale-90'}`}
+            onPress={() => router.push({
+                pathname: '/news',
+                params: {
+                    category: category,
+                    title: title,
+                    source: source,
+                    time: time,
+                    imageURL: imageURL
+                }
+            })}
+        >
             <ImageBackground 
                 source={{ uri: imageURL }}
                 className="w-full h-full"

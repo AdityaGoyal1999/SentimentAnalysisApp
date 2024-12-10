@@ -34,10 +34,10 @@ export default function AppLayout() {
                         // Active tab with pill background
                         <View className="flex-row  bg-blue-100 p-4 rounded-full gap-2">
                             {props.children}
-                            <Text className="ml-2 text-blue-600 text-sm">
+                            {/* <Text className="ml-2 text-blue-600 text-sm">
                                 {route.name === 'index' ? 'Home' : 
                                 route.name.charAt(0).toUpperCase() + route.name.slice(1)}
-                            </Text>
+                            </Text> */}
                         </View>
                     ) : (
                     // Inactive tab - icon only

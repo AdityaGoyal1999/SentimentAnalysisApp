@@ -1,4 +1,5 @@
-import { View, Text, SafeAreaView, Pressable, ScrollView, Image } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 
 interface NewsCardProps {
   category: string;
@@ -12,6 +13,16 @@ interface NewsCardProps {
 
 function NewsCard({ title, imageURL, category, authorImageURL, author, date }: NewsCardProps) {
   return (
+    <TouchableOpacity onPress={() => router.push({
+      pathname: '/news',
+      params: {
+        category: category,
+        title: title,
+        source: author,
+        time: date,
+        imageURL: imageURL
+      }
+    })}>
       <View className="flex-row border-2 border-red-200 my-2">
           <Image 
               source={{ uri: imageURL}}
@@ -31,6 +42,7 @@ function NewsCard({ title, imageURL, category, authorImageURL, author, date }: N
               </View>
           </View>
       </View>
+      </TouchableOpacity>
   )
 }
 
