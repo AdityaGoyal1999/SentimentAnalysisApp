@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/get-news', async(req, res, next) => {
+    console.log("get-news being called")
     try {
         const news = await newsService.getNews();
         res.status(200).json(news)

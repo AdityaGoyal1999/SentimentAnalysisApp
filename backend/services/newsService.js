@@ -6,6 +6,7 @@ const getNews = async() => {
     const url = `${config.newsApi.baseUrl}?apikey=${config.newsApi.apiKey}&language=en`;
     try {
         const response = await axios.get(url);
+        console.log("Coming here", response.date)
         if (response && response.status === 200) {
             return response.data;
         }

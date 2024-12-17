@@ -1,10 +1,40 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
+// import * as cheerio from 'cheerio';
+import axios from 'axios';
+import cheerio from 'react-native-cheerio';
+import { useEffect, useState } from 'react';
 
 
 export default function NewsScreen() {
-    const { category, title, source, time, imageURL } = useLocalSearchParams();
+    const { category, title, source, time, imageURL, newsURL } = useLocalSearchParams();
+    const [content, setContent] = useState('');
+
+    // console.log("News URL", newsURL);
+    useEffect(() => {
+        fetchNewsContent();
+    }, []);
+
+    const fetchNewsContent = async () => {
+        try {
+            const response = await axios.get(newsURL as string);
+            const $ = cheerio.load(response.data);
+            
+            // This is a basic example - you might need to adjust the selectors
+            // based on the specific news website's structure
+            const articleContent = $('article p, .article-content p, .story-content p')
+                .map((_, element) => $(element).text().trim())
+                .get()
+                .join('\n\n');
+            
+            setContent(articleContent);
+            console.log("News content", articleContent);
+        } catch (error) {
+            console.error('Error fetching news content:', error);
+            setContent('Unable to load article content.');
+        }
+    };
 
     return (
         <ScrollView>

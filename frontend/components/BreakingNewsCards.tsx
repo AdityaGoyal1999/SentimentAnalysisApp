@@ -104,6 +104,7 @@ export function BreakingNewsCards() {
                             title={item.title}
                             time={item.pubDate}
                             imageURL={item.image_url}
+                            newsURL={item.link}
                         />
                     </View>
                 ))}
