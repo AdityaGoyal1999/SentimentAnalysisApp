@@ -10,10 +10,11 @@ interface RecommendationCardProps {
     // sourceName: string;
     author: string;
     date: string;
+    newsContent: string;
     // description: string;
 }
 
-function RecommendationCard({ title, imageURL, category, author, authorImageURL, date }: RecommendationCardProps) {
+function RecommendationCard({ title, imageURL, category, author, authorImageURL, date, newsContent }: RecommendationCardProps) {
     return (
         <TouchableOpacity onPress={() => router.push({
             pathname: '/news',
@@ -22,7 +23,8 @@ function RecommendationCard({ title, imageURL, category, author, authorImageURL,
                 title: title,
                 source: author,
                 time: date,
-                imageURL: imageURL
+                imageURL: imageURL,
+                newsContent: newsContent
             }
         })}>
             <View className="flex-row border-2 border-red-200 my-2">
@@ -120,6 +122,7 @@ export function RecommendationSection() {
                         author={item.creator}
                         date={item.pubDate}
                         // description={item.description}
+                        newsContent={item.news_content}
                     />
                 ))}
             </ScrollView>

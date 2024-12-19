@@ -9,9 +9,10 @@ interface BreakingNewsCardProps {
     imageURL: string;
     isActive?: boolean;
     newsURL: string;
+    newsContent: string;
 }
 
-export function BreakingNewsCard({category, source, title, time, imageURL, isActive=false, newsURL}: BreakingNewsCardProps) {
+export function BreakingNewsCard({category, source, title, time, imageURL, isActive=false, newsURL, newsContent }: BreakingNewsCardProps) {
     return (
         <TouchableOpacity 
             className={`overflow-hidden rounded-xl ${isActive ? 'scale-100' : 'scale-90'}`}
@@ -23,7 +24,8 @@ export function BreakingNewsCard({category, source, title, time, imageURL, isAct
                     source: source,
                     time: time,
                     imageURL: imageURL,
-                    newsURL: newsURL
+                    newsURL: newsURL,
+                    newsContent: newsContent
                 }
             })}
         >

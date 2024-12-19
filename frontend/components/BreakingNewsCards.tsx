@@ -71,7 +71,7 @@ export function BreakingNewsCards() {
     return (
         <View>
             <View className="flex-row justify-between items-center px-4">
-                <Text className="text-2xl font-bold">Breaking News</Text>
+                <Text className="text-2xl font-bold">Top Stories</Text>
                 <Pressable className="text-blue-500">
                     <Text className="text-blue-600">View All</Text>
                 </Pressable>
@@ -90,7 +90,7 @@ export function BreakingNewsCards() {
                     paddingHorizontal: screenWidth * 0.01 // Add padding for peek effect
                 }}
             >
-                {newsItems.map((item, index) => (
+                {newsItems.slice(0, 4).map((item, index) => (
                     <View 
                         key={index} 
                         style={{
@@ -98,6 +98,7 @@ export function BreakingNewsCards() {
                             marginHorizontal: screenWidth * 0.02 // Small gap between cards
                         }}
                     >
+                        {/* {console.log(item.news_content)} */}
                         <BreakingNewsCard 
                             category={item.category}
                             source={item.source_name}
@@ -105,13 +106,14 @@ export function BreakingNewsCards() {
                             time={item.pubDate}
                             imageURL={item.image_url}
                             newsURL={item.link}
+                            newsContent={item.news_content}
                         />
                     </View>
                 ))}
             </ScrollView>
 
             <View className="flex-row justify-center mt-4">
-                {newsItems.map((_, index) => (
+                {newsItems.slice(0, 4).map((_, index) => (
                     <View
                         key={index}
                         className={`h-2 w-2 rounded-full mx-1 ${
